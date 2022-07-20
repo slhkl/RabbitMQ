@@ -1,3 +1,3 @@
 ﻿using RabbitMQ;
 
-ReceiveQueque.ReceiveFromQueque();
+await ReceiveQueque.ReceiveFromQueque();

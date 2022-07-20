@@ -1,15 +1,11 @@
 ﻿using RabbitMQ.Client.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RabbitMQ
 {
     public class ReceiveQueque
     {
-        public static void ReceiveFromQueque()
+        public static async Task ReceiveFromQueque()
         {
             string quequeName = Environment.GetEnvironmentVariable("QuequeName");
 
@@ -32,7 +28,8 @@ namespace RabbitMQ
                     Console.WriteLine($"{quequeName} kuyruğundan {message} geldi.");
                 };
                 channel.BasicConsume(quequeName, true, quequeName, false, false , null, consumer);
-                Console.ReadLine();
+
+                await Task.Delay(-1);
             }
         }
     }

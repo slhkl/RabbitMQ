@@ -18,7 +18,7 @@ app.MapPost("AddUserToQueque", (UserDto userDto) =>
 {
     User user = new User()
     {
-        Id = 1,
+        Id = userDto.Id,
         CreatedDate = DateTime.UtcNow,
         Name = userDto.Name,
         Password = userDto.Password

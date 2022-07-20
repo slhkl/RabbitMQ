@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
-using RabbitMQData.Dto;
 using RabbitMQData.Model;
 using System.Text;
 

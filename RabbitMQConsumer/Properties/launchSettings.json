@@ -4,7 +4,7 @@
       "commandName": "Project",
       "environmentVariables": {
         "QuequeName": "slhkl",
-        "RabbitMQUri": "amqp://root:root@127.0.0.1:18002"
+        "RabbitMQUri": "amqp://root:root@127.0.0.1:5672"
       }
     }
   }
