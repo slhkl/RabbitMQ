@@ -9,27 +9,30 @@ namespace RabbitMQ
         {
             string quequeName = Environment.GetEnvironmentVariable("QuequeName");
 
-            using (var channel = Connector.CreateConnection().CreateModel())
+            using (var connection = Connector.CreateConnection())
             {
-                channel.QueueDeclare(
-                    queue: quequeName,
-                    durable: false,
-                    exclusive: false,
-                    autoDelete: false,
-                    arguments: null
-                );
-
-                var consumer = new EventingBasicConsumer(channel);
-
-                consumer.Received += (model, ea) =>
+                using (var channel = connection.CreateModel())
                 {
-                    byte[] body = ea.Body.ToArray();
-                    string message = Encoding.UTF8.GetString(body);
-                    Console.WriteLine($"{quequeName} kuyruğundan {message} geldi.");
-                };
-                channel.BasicConsume(quequeName, true, quequeName, false, false , null, consumer);
+                    channel.QueueDeclare(
+                        queue: quequeName,
+                        durable: false,
+                        exclusive: false,
+                        autoDelete: false,
+                        arguments: null
+                    );
 
-                await Task.Delay(-1);
+                    var consumer = new EventingBasicConsumer(channel);
+
+                    consumer.Received += (model, ea) =>
+                    {
+                        byte[] body = ea.Body.ToArray();
+                        string message = Encoding.UTF8.GetString(body);
+                        Console.WriteLine($"{quequeName} kuyruğundan {message} geldi.");
+                    };
+                    channel.BasicConsume(quequeName, true, quequeName, false, false, null, consumer);
+
+                    await Task.Delay(-1);
+                }
             }
         }
     }

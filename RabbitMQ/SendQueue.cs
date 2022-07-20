@@ -11,25 +11,28 @@ namespace RabbitMQ
         {
             string quequeName = Environment.GetEnvironmentVariable("QuequeName");
 
-            using (var channel = Connector.CreateConnection().CreateModel())
+            using (var connection = Connector.CreateConnection())
             {
-                channel.QueueDeclare(
-                    queue: quequeName,
-                    durable: false,
-                    exclusive: false,
-                    autoDelete: false,
-                    arguments: null
-                );
+                using (var channel = connection.CreateModel())
+                {
+                    channel.QueueDeclare(
+                        queue: quequeName,
+                        durable: false,
+                        exclusive: false,
+                        autoDelete: false,
+                        arguments: null
+                    );
 
-                string userToString = JsonConvert.SerializeObject(user);
-                byte[] stringToByte = Encoding.UTF8.GetBytes(userToString);
+                    string userToString = JsonConvert.SerializeObject(user);
+                    byte[] stringToByte = Encoding.UTF8.GetBytes(userToString);
 
-                channel.BasicPublish(
-                    exchange: "",
-                    routingKey: quequeName,
-                    basicProperties: null,
-                    body: stringToByte
-                );
+                    channel.BasicPublish(
+                        exchange: "",
+                        routingKey: quequeName,
+                        basicProperties: null,
+                        body: stringToByte
+                    );
+                }
             }
         }
     }
